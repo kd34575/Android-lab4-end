@@ -43,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listview = (ListView) findViewById(R.id.listView);
         listview.setAdapter(this.adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?>
-                                            adapter, View view, int pos, long id)
-            {
+                                            adapter, View view, int pos, long id) {
                 TextView name = (TextView)
                         view.findViewById(android.R.id.text1);
                 Animal zwierz = db.pobierz(Integer.parseInt
@@ -56,10 +54,24 @@ public class MainActivity extends AppCompatActivity {
                 Intent intencja = new
                         Intent(getApplicationContext(),
                         DodajWpis.class);
-                intencja.putExtra("element", zwierz);
+                intencja.putExtra("element" , zwierz);
                 startActivityForResult(intencja, 2);
             }
         });
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean
+            onItemLongClick(AdapterView<?> parent, View
+                    view, int position, long id) {
+                TextView name = (TextView)
+                        view.findViewById(android.R.id.text1);
+                db.usun(name.getText().toString());
+                adapter.changeCursor(db.lista());
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -88,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
             //adapter.notifyDataSetChanged();
             adapter.changeCursor(db.lista());
             adapter.notifyDataSetChanged();
-        }
-        else if (requestCode == 2 && resultCode == RESULT_OK) {
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             // String nowy = (String) extras.get("wpis");
             //target.add(nowy);
