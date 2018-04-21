@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class MySQLite extends SQLiteOpenHelper {
-    public MySQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public MySQLite(Context context) {
         super(context, "animalsDB" , null, DATABASE_VERSION);
     }
 
